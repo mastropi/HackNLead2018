@@ -12,14 +12,20 @@
 #
 # Version: Python 3.6.4 Anaconda 64-bit
 #
-def description_cluster(messages_list_or_array, pickle_file):
+def description_cluster(messages_list_or_array, pickle_file_with_model):
     """
     messages_list_or_array:		List or array with messages to cluster.
-    pickle_file:				Pickle file containing the model needed to cluster the messages.
+    pickle_file_with_model:		Pickle file containing the model needed to cluster the messages.
+                                It should contain a dictionary with the following attributes:
+                                - 'bow_vectorizer': Bag Of Words obtained from CountVectorizer.fit() run on a set of messages
+                                - 'tfidf_transformer': TF-IDF model obtained from tfidf_transformer.fit() run on a set of Bag Of Words
+                                - 'U': left-eigenvector matrix of the SVD decomposition of the TF-IDF matrix
+                                - 'cluster_model': k-means cluster model obtained from KMeans.fit()
+                                - 'cluster_label': list with the humand-readable cluster labels
     """
 
     # Read model
-    model = pickle.load(open(pickle_file, "rb"))
+    model = pickle.load(open(pickle_file_with_model, "rb"))
     print("Model details:")
     print(model)
     
@@ -27,6 +33,7 @@ def description_cluster(messages_list_or_array, pickle_file):
     tfidf_transformer = model['tfidf_transformer']
     U = model['U']
     cluster_model = model['cluster_model']                   # This should be a K-means cluster model
+    cluster_labels = model['cluster_labels']
 
     # 0) Normalize messages
     msg = [unicodedata.normalize('NFD', m) for m in messages_list_or_array]
@@ -44,4 +51,4 @@ def description_cluster(messages_list_or_array, pickle_file):
     Ak1_new = Ak_new / Ak_new_norm
     
     # 4) Cluster
-    return(cluster_model.predict(Ak1_new.T))
+    return([cluster_labels[c] for c in cluster_model.predict(Ak1_new.T)])
