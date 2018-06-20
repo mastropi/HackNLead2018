@@ -32,3 +32,19 @@ Description: Pickle file containing a dictionary with the following entries:
 		the clustering model obtained by running the KMeans.fit() method.
 	- cluster_labels:
 		list containing the cluster "human" labels (e.g. "2 - Medical")
+
+Slide.key, Slide.pdf
+--------------------
+Date: 2018/06/20
+Creator: Federica
+Source: fmdsf team
+Goal: The slide of the final pitch of the project.
+Description: The slide of the final pitch of the project.
+
+Trends.pdf
+----------
+Date: 2018/06/20
+Creator: Federica
+Source: fmdsf team
+Goal: Show the number of winners in each sector.
+Description: Show the number of winners in each sector.
